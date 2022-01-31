@@ -19,11 +19,6 @@ class MainActivity : AppCompatActivity() {
         // getRoot 메서드로 레이아웃 내부의 최상위 위치 뷰의 인스턴스를 활용하여 생선된 뷰를 액티비티에 표시.
         setContentView(binding.root)
 
-        binding.btnToast.setOnClickListener {
-            binding.ivProfile.setImageResource(R.drawable.android)      // 이미지 뷰에 새로운 이미지 등록
-            Toast.makeText(this@MainActivity, "버튼이 클릭 되었습니다.", Toast.LENGTH_SHORT).show()   // 토스트메시지
-        }
-
     }
 
     override fun onDestroy() {
