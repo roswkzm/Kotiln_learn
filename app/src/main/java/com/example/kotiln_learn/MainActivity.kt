@@ -2,7 +2,6 @@ package com.example.kotiln_learn
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import com.example.kotiln_learn.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -18,12 +17,15 @@ class MainActivity : AppCompatActivity() {
         // getRoot 메서드로 레이아웃 내부의 최상위 위치 뷰의 인스턴스를 활용하여 생선된 뷰를 액티비티에 표시.
         setContentView(binding.root)
 
-        binding.tvText.setText("하이하이")
+        binding.btnGetText.setOnClickListener {     // Kotlin에서는 중괄호만 한다
+
+            var resultText = binding.etId.text.toString()   // var로 resultText라는 변수선언
+            binding.tvResult.setText(resultText)
+        }
 
     }
 
     override fun onDestroy() {
-        // onDestroy에서 binding class 인스턴스 참조를 정리해주어야 한다.
         mBinding = null
         super.onDestroy()
     }
