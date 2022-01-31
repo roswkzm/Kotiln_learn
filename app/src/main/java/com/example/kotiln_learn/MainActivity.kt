@@ -18,11 +18,7 @@ class MainActivity : AppCompatActivity() {
         // getRoot 메서드로 레이아웃 내부의 최상위 위치 뷰의 인스턴스를 활용하여 생선된 뷰를 액티비티에 표시.
         setContentView(binding.root)
 
-        binding.btnA.setOnClickListener {
-            val intent = Intent(this, SubActivity::class.java)    // Intent 사용
-            intent.putExtra("msg", binding.tvSendMsg.text.toString())   // putExtra 사용
-            startActivity(intent)
-        }
+
 
     }
 
