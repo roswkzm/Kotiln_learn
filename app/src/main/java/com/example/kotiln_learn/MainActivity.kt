@@ -23,26 +23,11 @@ class MainActivity : AppCompatActivity() {
         // getRoot 메서드로 레이아웃 내부의 최상위 위치 뷰의 인스턴스를 활용하여 생선된 뷰를 액티비티에 표시.
         setContentView(binding.root)
 
-        binding.webView.settings.javaScriptEnabled = true       // 자바스크립트 허용
 
-        /* 웹 뷰에서 새창이 뜨지 않도록 방지하는 구문 */
-        binding.webView.webViewClient = WebViewClient()
-        binding.webView.webChromeClient = WebChromeClient()
-        /* 웹 뷰에서 새창이 뜨지 않도록 방지하는 구문 */
-
-        binding.webView.loadUrl("https://www.naver.com")
         }
 
     override fun onDestroy() {
         mBinding = null
         super.onDestroy()
-    }
-
-    override fun onBackPressed() {
-        if(binding.webView.canGoBack()){    // 웹사이트에서 뒤로 갈 페이지가 존재 한다면...
-            binding.webView.goBack()
-        }else{
-            super.onBackPressed()           // 뒤로갈 페이지가 없다면 원래 뒤로가기 기능 실행
-        }
     }
 }
