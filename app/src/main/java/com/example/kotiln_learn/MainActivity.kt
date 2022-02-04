@@ -17,34 +17,8 @@ class MainActivity : AppCompatActivity() {
         // getRoot 메서드로 레이아웃 내부의 최상위 위치 뷰의 인스턴스를 활용하여 생선된 뷰를 액티비티에 표시.
         setContentView(binding.root)
 
-        setFrag(0)
 
-        binding.btnFragment1.setOnClickListener {
-            setFrag(0)
         }
-        binding.btnFragment2.setOnClickListener {
-            setFrag(1)
-        }
-        binding.btnFragment3.setOnClickListener {
-            setFrag(2)
-        }
-        }
-
-    // Fragment 교체부분
-    private fun setFrag(fragNum : Int) {
-        val ft = supportFragmentManager.beginTransaction()
-        when(fragNum){
-            0 -> {
-                ft.replace(R.id.main_frame, Fragment1()).commit()
-            }
-            1 -> {
-                ft.replace(R.id.main_frame, Fragment2()).commit()
-            }
-            2 -> {
-                ft.replace(R.id.main_frame, Fragment3()).commit()
-            }
-        }
-    }
 
     override fun onDestroy() {
         mBinding = null
