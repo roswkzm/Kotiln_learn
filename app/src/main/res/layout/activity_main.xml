@@ -7,15 +7,23 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
+    <TextView
+        android:id="@+id/tv_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="텍스트뷰"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"/>
+
+    <Button
+        android:id="@+id/btn_orientaition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="세로 방향 스크"/>
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager_2"
+        android:id="@+id/viewPager1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
 
 </LinearLayout>

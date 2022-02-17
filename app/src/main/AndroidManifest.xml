@@ -11,6 +11,9 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".FragmentActivity"
+            android:exported="false" />
+        <activity
             android:name=".fragments.Fragment3"
             android:exported="false" />
         <activity
