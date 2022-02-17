@@ -11,9 +11,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btn_move.setOnClickListener {
-            val intent = Intent(this, ScreenSlideActivity::class.java)
-            startActivity(intent)
-        }
+        val images = listOf(
+            R.drawable.android,
+            R.drawable.android,
+            R.drawable.android,
+            R.drawable.android,
+            R.drawable.android,
+            R.drawable.android,
+            R.drawable.android,
+        )
+
+        val adapter = ViewPagerAdapter(images)
+        viewPager.adapter = adapter
     }
 }
