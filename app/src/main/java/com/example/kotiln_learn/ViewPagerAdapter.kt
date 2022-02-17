@@ -1,27 +1,32 @@
 package com.example.kotiln_learn
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_view_pager.view.*
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.kotiln_learn.fragments.FirstFragment
+import com.example.kotiln_learn.fragments.SecFragment
+import com.example.kotiln_learn.fragments.ThirdFragment
 
-class ViewPagerAdapter(val images : List<Int>) : RecyclerView.Adapter<ViewPagerAdapter.ViewPagerViewHolder>() {
-
-    inner class ViewPagerViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewPagerViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_view_pager,parent, false)
-        return ViewPagerViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ViewPagerViewHolder, position: Int) {
-        val curImage = images[position]
-        holder.itemView.ivImage.setImageResource(curImage)
-        holder.itemView.textNumber.text = "${position +1} 번째 화면"
-    }
-
+class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
-        return images.size
+        return 3
+    }
+
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
+            0 -> {
+                FirstFragment()
+            }
+            1 -> {
+                SecFragment()
+            }
+            2 -> {
+                ThirdFragment()
+            }
+            else -> {
+                Fragment()
+            }
+        }
     }
 }

@@ -12,23 +12,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val images = listOf(
-            R.drawable.android,
-            R.drawable.android,
-            R.drawable.android,
-            R.drawable.android,
-            R.drawable.android,
-            R.drawable.android,
-            R.drawable.android,
-        )
+        val tabLayout = tab_layout
+        val viewpager2 = view_pager_2
 
+        val adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
 
-        val adapter = ViewPagerAdapter(images)
-        viewPager.adapter = adapter
+        viewpager2.adapter = adapter
 
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = "Tab ${position+1}"
+        TabLayoutMediator(tabLayout, viewpager2){ tab , position ->
+            when(position){
+                0 -> {
+                    tab.text = "First"
+                }
+                1 -> {
+                    tab.text = "Second"
+                }
+                2 -> {
+                    tab.text = "Third"
+                }
+            }
         }.attach()
     }
-
 }
