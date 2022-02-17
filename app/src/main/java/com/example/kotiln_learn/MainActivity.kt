@@ -30,4 +30,5 @@ class MainActivity : AppCompatActivity() {
             tab.text = "Tab ${position+1}"
         }.attach()
     }
+
 }
