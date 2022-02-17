@@ -11,16 +11,22 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".FragmentActivity"
+            android:name=".fragments.Fragment2"
+            android:exported="false" />
+        <activity
+            android:name=".ScreenSlideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".fragments.Fragment4"
             android:exported="false" />
         <activity
             android:name=".fragments.Fragment3"
             android:exported="false" />
         <activity
-            android:name=".fragments.Fragment2"
+            android:name=".fragments.Fragment1"
             android:exported="false" />
         <activity
-            android:name=".fragments.Fragment1"
+            android:name=".FragmentActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
