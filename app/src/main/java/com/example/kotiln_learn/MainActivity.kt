@@ -12,9 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.awaitResponse
+import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
@@ -28,14 +26,16 @@ class MainActivity : AppCompatActivity() {
             .build()
             .create(ApiRequest::class.java)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val response : Response<ApiData> = api.getApi().awaitResponse()
-
-            withContext(Dispatchers.Main){
-                Log.d("ㅎㅇㅎㅇ1", response.headers().toString())
-                Log.d("ㅎㅇㅎㅇ1", response.body()?.korea.toString())
+        api.getApi().enqueue(object : Callback<ApiData>{
+            override fun onResponse(call: Call<ApiData>, response: Response<ApiData>) {
+                Log.d("ㅎㅇㅎㅇ1", response.body()?.resultCode.toString())
+                Log.d("ㅎㅇㅎㅇ1", response.body()?.resultMessage.toString())
+                textView.text = response.body()?.korea.toString()
             }
-        }
+
+            override fun onFailure(call: Call<ApiData>, t: Throwable) {
+            }
+        })
 
     }
 }

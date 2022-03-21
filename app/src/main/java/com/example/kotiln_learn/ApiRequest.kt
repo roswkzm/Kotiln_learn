@@ -6,7 +6,7 @@ import retrofit2.http.GET
 
 interface ApiRequest {
     companion object{
-        const val BASE_URL = "https://api.corona-19.kr/"
+        const val BASE_URL = "https://api.corona-19.kr"
         const val Token = "WNr54nBbo3w9OCRlpayGhKqmHA1DzLejZ"
     }
 
