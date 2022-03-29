@@ -7,24 +7,9 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ㅎㅇㅎㅇ">
-    </TextView>
-
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="화면이동"/>
-
-    <FrameLayout
-        android:id="@+id/main_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
