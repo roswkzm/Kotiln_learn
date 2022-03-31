@@ -1,61 +1,118 @@
 package com.example.kotiln_learn
 
+import android.graphics.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotiln_learn.databinding.ActivityMainBinding
 import com.example.kotiln_learn.databinding.ItemRecyclerBinding
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mainBinding: ActivityMainBinding
+    private val rvAdapter = RecyclerViewAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
 
-        val profileList = arrayListOf(
-            Profiles(R.drawable.android, "이진영1", 11, "학생1"),
-            Profiles(R.drawable.android, "이진영2", 12, "학생2"),
-            Profiles(R.drawable.android, "이진영3", 13, "학생3"),
-            Profiles(R.drawable.android, "이진영4", 14, "학생4"),
-            Profiles(R.drawable.android, "이진영5", 15, "학생5"),
-            Profiles(R.drawable.android, "이진영6", 16, "학생6"),
-            Profiles(R.drawable.android, "이진영7", 17, "학생7"),
-            Profiles(R.drawable.android, "이진영8", 18, "학생8"),
-            Profiles(R.drawable.android, "이진영9", 19, "학생9"),
-            Profiles(R.drawable.android, "이진영10", 20, "학생10"),
-            Profiles(R.drawable.android, "이진영11", 21, "학생11"),
-            Profiles(R.drawable.android, "이진영12", 22, "학생12"),
-            Profiles(R.drawable.android, "이진영13", 23, "학생13")
-        )
+        // mainBinding의 recyclerView에 대해 묶어주는 역활
+        with(mainBinding){
+            with(rvMain){
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+                adapter = rvAdapter
+                addItemDecoration(DividerItemDecoration(context,DividerItemDecoration.VERTICAL))
+            }
+        }
 
-        mainBinding.rvMain.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        mainBinding.rvMain.adapter = RecyclerViewAdapter(profileList)
+        // itemTouchHelper를 통해 스와이프와 이동할 수 있도록 만듬
+        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT){
+            // 드래그로 RecyclerView 자료 순서바꾸기
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                val fromPos = viewHolder.adapterPosition
+                val toPos = target.adapterPosition
+                rvAdapter.swapData(fromPos, toPos)
+                return true
+            }
+            // 스와이프로 RecyclerView의 자료 삭제
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                rvAdapter.removeData(viewHolder.layoutPosition)
+            }
+            // 스와이프시 여백 채우기
+            override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                val icon : Bitmap
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+                    val itemView = viewHolder.itemView
+                    val height = (itemView.bottom - itemView.top).toFloat()
+                    val width = height / 4
+                    val paint = Paint()
+                    // 왼쪽으로 스와이프 했을시
+                    if (dX < 0){
+                        // 색상추가
+                        paint.color = Color.parseColor("#ff0000")
+                        val background = RectF(itemView.right.toFloat() + dX,itemView.top.toFloat(),itemView.right.toFloat(),itemView.bottom.toFloat())
+                        c.drawRect(background,paint)
+
+                        // 아이콘 추가
+                        icon = BitmapFactory.decodeResource(resources, R.drawable.android)
+                        val iconDest = RectF(itemView.right.toFloat() -3 * width, itemView.top.toFloat() + width, itemView.right.toFloat() - width,
+                            itemView.bottom.toFloat() - width)
+                        c.drawBitmap(icon, null, iconDest, null)
+                    }
+                }
+            }
+        }
+        // ItemTouchHelper를 RecyclerView에 연결
+        ItemTouchHelper(itemTouchCallback).attachToRecyclerView(mainBinding.rvMain)
 
     }
 
-    inner class RecyclerViewAdapter(var data : ArrayList<Profiles>) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
-        inner class ViewHolder(var binding: ItemRecyclerBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
+
+        private val dataSet : ArrayList<List<String>> = arrayListOf<List<String>>().apply {
+            for (i in 0 .. 99){
+                add(listOf("$i th main", "$i th sub"))
+            }
         }
 
-        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerViewAdapter.ViewHolder {
-            val binding = ItemRecyclerBinding.inflate(LayoutInflater.from(p0.context),p0,false)
+        // 스와이프시 데이터 지워주는 함수
+        fun removeData(position: Int){
+            dataSet.removeAt(position)
+            notifyItemRemoved(position)
+        }
+
+        fun swapData(fromPos : Int, toPos : Int){
+            Collections.swap(dataSet,fromPos,toPos)
+            notifyItemMoved(fromPos, toPos)
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewAdapter.ViewHolder {
+            val binding = ItemRecyclerBinding.inflate(LayoutInflater.from(parent.context),parent,false)
             return ViewHolder(binding)
         }
 
-        override fun onBindViewHolder(p0: RecyclerViewAdapter.ViewHolder, p1: Int) {
-            p0.binding.tvJob.text = data[p1].name
-            p0.binding.tvAge.text = data[p1].age.toString()
+        inner class ViewHolder (var binding: ItemRecyclerBinding) : RecyclerView.ViewHolder(binding.root){
+            fun bind(data:List<String>){
+                binding.tvMain.text = data[0]
+                binding.tvSub.text = data[1]
+            }
+        }
+
+        override fun onBindViewHolder(holder: RecyclerViewAdapter.ViewHolder, position: Int) {
+            holder.bind(dataSet[position])
         }
 
         override fun getItemCount(): Int {
-            return data.size
+            return dataSet.size
         }
 
     }
